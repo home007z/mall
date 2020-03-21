@@ -119,6 +119,7 @@ export default {
 <style scoped>
 .cart{
   height: 100vh;
+  background-color: whitesmoke;
 }
 .nav-bar{
   background-color: var(--color-tint);

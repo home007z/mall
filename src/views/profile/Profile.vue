@@ -10,33 +10,63 @@
     <!--1.单独封装一个组件: 利用slot知识点-->
     <UserInfo></UserInfo>
 
-    <!--2.没有单独封装: 不同的地方太多, 需要传过多的参数-->
-    <section class="account">
-      <div class="account-item">
-        <div class="number">
-          <span class="balance">0.00</span>元
-        </div>
-        <div class="account-info">我的余额</div>
-      </div>
-      <div class="account-item">
-        <div class="number">
-          <span class="balance">0</span>个
-        </div>
-        <div class="account-info">我的优惠</div>
-      </div>
-      <div class="account-item">
-        <div class="number">
-          <span class="balance">0</span>分
-        </div>
-        <div class="account-info">我的积分</div>
-      </div>
-    </section>
-
-    <!--3.封装成一个整体-->
-    <list-view :list-data="orderList" class="order-list"></list-view>
-    <list-view :list-data="serviceList" class="service-list"></list-view>
-
-    <button class="login-out" @click="LoginOut">退出</button>
+    <van-cell-group>
+      <van-cell title="我的订单"
+                icon="label"
+                value="查看全部订单"
+                is-link
+                @click="goTomyOrder(-1)">
+      </van-cell>
+      <van-grid :border=false>
+        <van-grid-item v-for="(order,index) in orderData"
+                       :key="index"
+                       :icon="order.icon"
+                       :text="order.title"
+                       @click="goTomyOrder(index)" />
+      </van-grid>
+    </van-cell-group>
+    <van-cell-group style="margin-top:5px">
+      <van-cell title="我的优惠券"
+                icon="gold-coin"
+                :value="userInfo.token?'2':''"
+                @click="goToPage('couponList')"
+                is-link />
+      <van-cell title="我的收货地址"
+                icon="todo-list"
+                is-link
+                @click="goToPage('myAddress')" />
+    </van-cell-group>
+    <van-cell-group style="margin-top:5px">
+      <van-cell is-link
+                icon="vip-card"
+                @click="goToPage('myVip')">
+        <template slot="title">
+          <span class="custom-title">我的绿卡</span>
+          <van-tag type="danger"
+                   :round=true>NEW</van-tag>
+        </template>
+      </van-cell>
+    </van-cell-group>
+    <van-cell-group style="margin-top:5px">
+      <van-cell title="联系客服"
+                icon="phone"
+                value="客服时间 07:00-22:00"
+                is-link />
+      <van-cell title="意见反馈"
+                icon="comment-circle"
+                is-link
+                @click="onFeedBack" />
+      <van-cell title="Vant UI"
+                icon="clock"
+                @click="learnVant"
+                is-link />
+    </van-cell-group>
+    <van-cell-group style="margin-top:5px">
+      <van-cell title="退出"
+                icon="clear"
+                @click="LoginOut"
+                is-link />
+    </van-cell-group>
   </div>
 </template>
 
@@ -44,27 +74,24 @@
 import NavBar from 'common/navbar/NavBar'
 
 import UserInfo from './childComps/UserInfo'
-import ListView from './childComps/ListView'
 
 import { mapState, mapMutations } from 'vuex'
+
+import { Dialog, Toast } from 'vant'
 
 export default {
   name: 'Profile',
   components: {
     UserInfo,
-    ListView,
     NavBar
   },
   data: function () {
     return {
-      orderList: [
-        { icon: '#order', iconColor: '#ff8198', info: '我的消息' },
-        { icon: '#point', iconColor: '#fc7b53', info: '积分商城' },
-        { icon: '#vip', iconColor: '#ffc636', info: '会员卡' }
-      ],
-      serviceList: [
-        { icon: '#service', iconColor: '#ff8198', info: '我的购物车' },
-        { icon: '#download', iconColor: '#ff8198', info: '下载购物APP' }
+      orderData: [
+        { icon: 'cart-circle-o', title: '待支付' },
+        { icon: 'gift-o', title: '待收货' },
+        { icon: 'smile-comment-o', title: '待评价' },
+        { icon: 'cash-back-record', title: '售后/退款' }
       ]
     }
   },
@@ -75,6 +102,34 @@ export default {
     ...mapMutations(['LOGIN_OUT']),
     LoginOut () {
       this.LOGIN_OUT()
+    },
+    // 跳转到我的订单
+    goTomyOrder (index) {
+      // if (index !== 3) {
+      //   return this.$router.push({ name: 'myOrder', params: { active: index + 1 } })
+      // }
+      // 跳转到售后退款界面
+      Toast({
+        message: '售后/退款',
+        duration: 1500
+      })
+    },
+    // 跳转页面
+    goToPage (name) {
+      // this.$router.push({ name })
+    },
+    // 意见反馈
+    onFeedBack () {
+      Dialog.alert({
+        title: '💘感谢您的关注💘',
+        message: 'GitHub上搜索 xxx 🦉欢迎提出优化建议🙉',
+        confirmButtonText: '记得点个小星❤️哦~'
+      }).then(() => {
+        // on close
+      })
+    },
+    learnVant () {
+
     }
   }
 }
@@ -91,55 +146,14 @@ export default {
     color: #fff;
   }
 
-.nav-bar-right i{
+  .nav-bar-right i{
     font-size: 16px;
     font-weight: initial;
     margin: 0 5px;
     color: #ffffff;
   }
-  .account {
-    display: flex;
-  }
-
-  .account-item {
-    width: 100%;
-    background-color: #fff;
-    margin-right: 1px;
-    text-align: center;
-  }
-
-  .account-item:last-of-type {
-    margin-right: 0;
-  }
-
-  .account-item {
-    color: #666;
-    font-size: 13px;
-    padding: 18px;
-  }
-
-  .account-item .balance {
-    font-size: 24px;
-    font-weight: 700;
-    color: #ff5f3e;
-  }
-
-  .account-info {
-    margin-top: 6px;
-  }
-
-  .order-list, .service-list {
-    margin-top: 12px;
-  }
-
-  .login-out{
-    border: none;
-    width: 90%;
-    height: 36px;
-    border-radius: 18px;
-    background: var(--color-tint);
-    color: #fff;
-    margin: 20px 5%;
-  }
-
+  .van-cell__left-icon {
+    color: rgb(250, 67, 106);
+    font-size: 20px;
+}
 </style>

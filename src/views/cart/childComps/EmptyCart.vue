@@ -5,9 +5,10 @@
             <div class="title">购物车空空滴~</div>
             <router-link to="/" class="goHome">去逛逛</router-link>
         </div>
-        <div class="empty-list">
-            <div class="title">猜你喜欢</div>
-        </div>
+
+        <van-divider :style="{ color: 'black', borderColor: 'grey', padding: '0 16px' }">
+          猜你喜欢
+        </van-divider>
     </div>
 </template>
 
@@ -44,39 +45,4 @@ export default {
   margin-top: 10px;
 }
 
-.empty-list .title{
-    display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    align-items: center;
-    margin: 16px 0;
-    font-size: 14px;
-    line-height: 24px;
-    border-style: solid;
-    border-width: 0;
-    border-color: grey;
-    color: black;
-    padding: 0px 16px;
-}
-
-.empty-list .title::after, .empty-list .title::before {
-    display: block;
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    flex: 1;
-    box-sizing: border-box;
-    height: 1px;
-    border-color: inherit;
-    border-style: inherit;
-    border-width: 1px 0 0;
-    content: "";
-}
-
-.empty-list .title::before{
-    margin-right: 16px;
-}
-
-.empty-list .title::after{
-    margin-left: 16px;
-}
 </style>
