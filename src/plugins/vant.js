@@ -90,6 +90,12 @@ import { Sidebar, SidebarItem } from 'vant'
 // 30.商品导航
 import { GoodsAction, GoodsActionIcon, GoodsActionButton } from 'vant'
 
+// 31.image图片
+import { Image } from 'vant'
+
+// Layout 布局
+import { Col, Row } from 'vant'
+
 // 遮罩
 import { Overlay } from 'vant'
 Vue.use(Tabbar).use(TabbarItem)
@@ -130,3 +136,6 @@ Vue.use(GoodsAction)
   .use(GoodsActionIcon)
   .use(GoodsActionButton)
 Vue.use(Overlay)
+Vue.use(Image)
+Vue.use(Col)
+  .use(Row)

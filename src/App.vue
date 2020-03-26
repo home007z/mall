@@ -1,8 +1,12 @@
 <template>
   <div id="app">
-    <keep-alive exclude="Detail"> <!-- 不销毁页面,排除Detail页面（重新获取） -->
-      <router-view/>
+    <!-- <keep-alive exclude="Detail"> --> <!-- 不销毁页面,排除Detail页面（重新获取） -->
+    <!--  <router-view/>
+    </keep-alive> -->
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive" />
     </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive" />
     <main-tab-bar/>
   </div>
 </template>

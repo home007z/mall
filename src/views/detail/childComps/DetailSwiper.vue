@@ -1,6 +1,6 @@
 <template>
     <swiper class="detail-swiper" v-if="topImages.length">
-      <swiper-item class="item" v-for="(item, index) in topImages" :key="index">
+      <swiper-item class="item" v-for="(item, index) in topImages" :key="index" @click.native="Preview(index)">
         <img :src="item" alt="">
       </swiper-item>
     </swiper>
@@ -8,6 +8,7 @@
 
 <script>
 import { Swiper, SwiperItem } from 'components/common/swiper'
+import { ImagePreview } from 'vant'
 
 export default {
   name: 'DetailSwiper',
@@ -21,6 +22,17 @@ export default {
       default () {
         return []
       }
+    }
+  },
+  methods: {
+    Preview (index) {
+      ImagePreview({
+        images: this.topImages,
+        startPosition: parseInt(index--),
+        onClose () {
+          // do something
+        }
+      })
     }
   }
 }

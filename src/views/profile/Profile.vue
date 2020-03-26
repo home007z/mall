@@ -32,9 +32,8 @@
                 @click="goToPage('couponList')"
                 is-link />
       <van-cell title="我的收货地址"
-                icon="todo-list"
-                is-link
-                @click="goToPage('myAddress')" />
+                icon="location"
+                is-link/>
     </van-cell-group>
     <van-cell-group style="margin-top:5px">
       <van-cell is-link
@@ -56,9 +55,9 @@
                 icon="comment-circle"
                 is-link
                 @click="onFeedBack" />
-      <van-cell title="Vant UI"
-                icon="clock"
-                @click="learnVant"
+      <van-cell title="Learn Vant UI"
+                icon="column"
+                @click="goToPage('learnVant')"
                 is-link />
     </van-cell-group>
     <van-cell-group style="margin-top:5px">
@@ -67,6 +66,12 @@
                 @click="LoginOut"
                 is-link />
     </van-cell-group>
+    <div class="version">当前版本1.4.0</div>
+    <!--路由的出口-->
+    <transition name="router-slider"
+                mode="out-in">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -105,9 +110,9 @@ export default {
     },
     // 跳转到我的订单
     goTomyOrder (index) {
-      // if (index !== 3) {
-      //   return this.$router.push({ name: 'myOrder', params: { active: index + 1 } })
-      // }
+      if (index !== 3) {
+        return this.$router.push({ name: 'myOrder', params: { active: index + 1 } })
+      }
       // 跳转到售后退款界面
       Toast({
         message: '售后/退款',
@@ -116,20 +121,17 @@ export default {
     },
     // 跳转页面
     goToPage (name) {
-      // this.$router.push({ name })
+      this.$router.push({ name })
     },
     // 意见反馈
     onFeedBack () {
       Dialog.alert({
         title: '💘感谢您的关注💘',
-        message: 'GitHub上搜索 xxx 🦉欢迎提出优化建议🙉',
+        message: 'GitHub \r\n 🙉欢迎提出优化建议🙉',
         confirmButtonText: '记得点个小星❤️哦~'
       }).then(() => {
         // on close
       })
-    },
-    learnVant () {
-
     }
   }
 }
@@ -137,7 +139,7 @@ export default {
 
 <style scoped>
   #profile {
-    background-color: #f2f2f2;
+    background-color: #f6f6f6;
   }
 
   .nav-bar {
@@ -155,5 +157,24 @@ export default {
   .van-cell__left-icon {
     color: rgb(250, 67, 106);
     font-size: 20px;
-}
+  }
+  .version {
+    margin: 0 auto;
+    text-align: center;
+    font-size: 0.6rem;
+    background-color: #ffffff;
+    height: 2rem;
+    color: grey;
+    line-height: 2rem;
+  }
+  /*转场动画*/
+  .router-slider-enter-active,
+  .router-slider-leave-active {
+    transition: all 0.3s;
+  }
+  .router-slider-enter,
+  .router-slider-leave-active {
+    transform: translate3d(20px, 0, 0);
+    opacity: 0;
+  }
 </style>

@@ -53,6 +53,7 @@ export default {
       this.logining = true
       const userinfo = {
         id: 1,
+        token: 'Djx7894544001sxxJd',
         mobile: this.mobile,
         password: this.password,
         nickname: 'Leo yo'
